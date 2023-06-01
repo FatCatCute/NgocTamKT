@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec = "http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Nhân Viên</title>
+    <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+    <h1 th:text="${title}"></h1>
+    <table class="table">
+        <tr>
+            <th> Mã nhân viên </th>
+            <th> Tên nhân viên</th>
+            <th> Giới tính</th>
+            <th> Nơi sinh</th>
+            <th> Tên Phòng</th>
+            <th> Lương</th>
+            <th sec:authorize="hasAnyAuthority('ADMIN')"> Action</th>
+        </tr>
+        <tr th:each="nhanVien : ${nhanVien}">
+            <td th:text="${nhanVien.Ma_NV}"></td>
+            <td th:text="${nhanVien.Ten_NV}"></td>
+
+            <td style="width: 5px">
+                <img th:if="${nhanVien.Phai == 'Nam'}" src="image/Male.png" style="max-width: 100%" alt="Male Image">
+                <img th:if="${nhanVien.Phai == 'Nu'}" src="image/Female.png" style="max-width: 100%" alt="Female Image">
+            </td>
+
+            <td th:text="${nhanVien.Noi_Sinh}"></td>
+            <td th:text="${nhanVien.phongBan.Ten_Phong}"></td>
+            <td th:text="${nhanVien.Luong}"></td>
+            <td>
+                <a th:href="@{/TrangChu/edit/{Ma_NV}(Ma_NV=${nhanVien.Ma_NV})}">Sửa</a>
+                <a th:href="@{/TrangChu/delete/{Ma_NV}(Ma_NV=${nhanVien.Ma_NV})}"
+                   onclick="return confirm('Bạn có chắc là muốn xóa chứ?')">Xóa</a>
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>
